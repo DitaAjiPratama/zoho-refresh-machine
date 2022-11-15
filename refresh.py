@@ -8,16 +8,16 @@ import json
 
 
 print("""\033[32;1m
-  _____     _             ____       __               _       __  __            _     _            
- |__  /___ | |__   ___   |  _ \ ___ / _|_ __ ___  ___| |__   |  \/  | __ _  ___| |__ (_)_ __   ___ 
+  _____     _             ____       __               _       __  __            _     _
+ |__  /___ | |__   ___   |  _ \ ___ / _|_ __ ___  ___| |__   |  \/  | __ _  ___| |__ (_)_ __   ___
    / // _ \| '_ \ / _ \  | |_) / _ \ |_| '__/ _ \/ __| '_ \  | |\/| |/ _` |/ __| '_ \| | '_ \ / _ \\
   / /| (_) | | | | (_) | |  _ <  __/  _| | |  __/\__ \ | | | | |  | | (_| | (__| | | | | | | |  __/
  /____\___/|_| |_|\___/  |_| \_\___|_| |_|  \___||___/_| |_| |_|  |_|\__,_|\___|_| |_|_|_| |_|\___|
-                                                                                                   
+
 \033[m""")
 
 def refresh_token():
-    
+
     con = {
         'host'      : 'localhost',
         'user'      : 'root',
@@ -25,7 +25,7 @@ def refresh_token():
         'database'  : 'zrm',
         'autocommit': True,
     }
-    
+
     main_db = mariadb.connect(**con)
     cursor  = main_db.cursor()
 
@@ -35,9 +35,9 @@ def refresh_token():
     client_secret   = result[1]
     refresh_token   = result[2]
 
-    # print("client_id:"      +client_id)
-    # print("client_secret:"  +client_secret)
-    # print("refresh_token:"  +refresh_token)
+    # print("client_id: {client_id}")
+    # print("client_secret: {client_secret}")
+    # print("refresh_token: {refresh_token}")
 
     main_db.close()
 
