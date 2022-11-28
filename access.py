@@ -47,22 +47,19 @@ if "access_token"   in form_param:
     access_token    = form_param["access_token"     ]
     cursor.execute("ROLLBACK;"  )
     cursor.execute("BEGIN;"     )
-    cursor.execute(f"UPDATE `zoho` SET `access_token` = '{access_token}', `when_update` = NOW() ")
-    # It could be dangerous in update query, because it don't have WHERE statement
+    cursor.execute(f"UPDATE `zoho` SET `access_token` = '{access_token}', `when_update` = NOW()  WHERE `client_id` = '{key}' ")
     cursor.execute("COMMIT;"    )
 if "refresh_token"  in form_param:
     refresh_token   = form_param["refresh_token"    ]
     cursor.execute("ROLLBACK;"  )
     cursor.execute("BEGIN;"     )
-    cursor.execute(f"UPDATE `zoho` SET `refresh_token` = '{refresh_token}', `when_update` = NOW() ")
-    # It could be dangerous in update query, because it don't have WHERE statement
+    cursor.execute(f"UPDATE `zoho` SET `refresh_token` = '{refresh_token}', `when_update` = NOW()  WHERE `client_id` = '{key}' ")
     cursor.execute("COMMIT;"    )
 if "api_domain"     in form_param:
     api_domain      = form_param["api_domain"       ]
     cursor.execute("ROLLBACK;"  )
     cursor.execute("BEGIN;"     )
-    cursor.execute(f"UPDATE `zoho` SET `api_domain` = '{api_domain}', `when_update` = NOW() ")
-    # It could be dangerous in update query, because it don't have WHERE statement
+    cursor.execute(f"UPDATE `zoho` SET `api_domain` = '{api_domain}', `when_update` = NOW()  WHERE `client_id` = '{key}' ")
     cursor.execute("COMMIT;"    )
 
 main_db.close()
