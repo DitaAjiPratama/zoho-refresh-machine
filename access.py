@@ -1,19 +1,17 @@
+import sys
 import mysql.connector as mariadb
 import requests
 import json
+import config.database as dbcon
 
-con = {
-    'host'          : 'localhost',
-    'user'          : 'root',
-    'password'      : '',
-    'database'      : 'zrm',
-    'autocommit'    : True,
-}
+key = sys.argv[1]
+
+con = dbcon.con
 
 main_db = mariadb.connect(**con)
 cursor  = main_db.cursor()
 
-cursor.execute(f"SELECT `client_id`, `client_secret`, `redirect_uri`, `code` FROM `zoho` ")
+cursor.execute(f"SELECT `client_id`, `client_secret`, `redirect_uri`, `code` FROM `zoho` WHERE `client_id` = '{key}' ")
 result          = cursor.fetchone()
 client_id       = result[0]
 client_secret   = result[1]

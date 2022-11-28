@@ -4,6 +4,7 @@ import datetime
 import mysql.connector as mariadb
 import requests
 import json
+import config.database as dbcon
 
 
 
@@ -18,13 +19,7 @@ print("""\033[32;1m
 
 def refresh_token():
 
-    con = {
-        'host'      : 'localhost',
-        'user'      : 'root',
-        'password'  : '',
-        'database'  : 'zrm',
-        'autocommit': True,
-    }
+    con = dbcon.con
 
     main_db = mariadb.connect(**con)
     cursor  = main_db.cursor()
