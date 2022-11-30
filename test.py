@@ -3,8 +3,7 @@ import requests
 import json
 import config.database as dbcon
 
-con = dbcon.con
-
+con     = dbcon.con
 main_db = mariadb.connect(**con)
 cursor  = main_db.cursor()
 

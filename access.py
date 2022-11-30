@@ -4,19 +4,18 @@ import requests
 import json
 import config.database as dbcon
 
-key = sys.argv[1]
+key     = sys.argv[1]
 
-con = dbcon.con
-
+con     = dbcon.con
 main_db = mariadb.connect(**con)
-cursor  = main_db.cursor()
+cursor  = main_db.cursor(dictionary=True)
 
 cursor.execute(f"SELECT `client_id`, `client_secret`, `redirect_uri`, `code` FROM `zoho` WHERE `client_id` = '{key}' ")
 result          = cursor.fetchone()
-client_id       = result[0]
-client_secret   = result[1]
-redirect_uri    = result[2]
-code            = result[3]
+client_id       = result["client_id"        ]
+client_secret   = result["client_secret"    ]
+redirect_uri    = result["redirect_uri"     ]
+code            = result["code"             ]
 
 print(f"client_id: {client_id}")
 print(f"client_secret: {client_secret}")

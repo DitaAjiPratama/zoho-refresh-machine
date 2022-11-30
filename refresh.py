@@ -19,16 +19,17 @@ print("""\033[32;1m
 
 def refresh_token():
 
-    con = dbcon.con
+    key     = sys.argv[1]
 
+    con     = dbcon.con
     main_db = mariadb.connect(**con)
-    cursor  = main_db.cursor()
+    cursor  = main_db.cursor(dictionary=True)
 
-    cursor.execute(f"SELECT `client_id`, `client_secret`, `refresh_token` FROM `zoho` ")
+    cursor.execute(f"SELECT `client_id`, `client_secret`, `refresh_token` FROM `zoho` WHERE `client_id` = '{key}' ")
     result          = cursor.fetchone()
-    client_id       = result[0]
-    client_secret   = result[1]
-    refresh_token   = result[2]
+    client_id       = result["client_id"        ]
+    client_secret   = result["client_secret"    ]
+    refresh_token   = result["refresh_token"    ]
 
     # print("client_id: {client_id}")
     # print("client_secret: {client_secret}")
@@ -57,21 +58,21 @@ def refresh_token():
         access_token    = form_param["access_token"     ]
         cursor.execute("ROLLBACK;"  )
         cursor.execute("BEGIN;"     )
-        cursor.execute(f"UPDATE `zoho` SET `access_token` = '{access_token}', `when_update` = NOW() ")
+        cursor.execute(f"UPDATE `zoho` SET `access_token` = '{access_token}', `when_update` = NOW() WHERE `client_id` = '{key}' ")
         # It could be dangerous in update query, because it don't have WHERE statement
         cursor.execute("COMMIT;"    )
     if "refresh_token"  in form_param:
         refresh_token   = form_param["refresh_token"    ]
         cursor.execute("ROLLBACK;"  )
         cursor.execute("BEGIN;"     )
-        cursor.execute(f"UPDATE `zoho` SET `refresh_token` = '{refresh_token}', `when_update` = NOW() ")
+        cursor.execute(f"UPDATE `zoho` SET `refresh_token` = '{refresh_token}', `when_update` = NOW() WHERE `client_id` = '{key}' ")
         # It could be dangerous in update query, because it don't have WHERE statement
         cursor.execute("COMMIT;"    )
     if "api_domain"     in form_param:
         api_domain      = form_param["api_domain"       ]
         cursor.execute("ROLLBACK;"  )
         cursor.execute("BEGIN;"     )
-        cursor.execute(f"UPDATE `zoho` SET `api_domain` = '{api_domain}', `when_update` = NOW() ")
+        cursor.execute(f"UPDATE `zoho` SET `api_domain` = '{api_domain}', `when_update` = NOW() WHERE `client_id` = '{key}' ")
         # It could be dangerous in update query, because it don't have WHERE statement
         cursor.execute("COMMIT;"    )
 
@@ -84,4 +85,4 @@ def refresh_token():
 
 while True:
     refresh_token()
-    time.sleep(int(sys.argv[1])) # Expired in 3600
+    time.sleep(int(sys.argv[2])) # Expired in 3600
